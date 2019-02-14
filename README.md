@@ -10,4 +10,5 @@
 そのレコードごとにsubscription idデータを使ってPayjpにアクセスし、最新の定額課金状況を確認する
 ステータスがactiveになっていれば有効期間(current_period_end)を用いてexpired_atを更新する
 もしステータスがactiveではない場合は該当するユーザーの usersテーブルのpay_regi_statusカラムを3に変更
+15分がLambdaのタイムアウト時間のため、処理開始から13分経過時点で処理終了
 

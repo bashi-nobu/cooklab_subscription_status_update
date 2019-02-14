@@ -2,6 +2,7 @@ import boto3
 import os
 import sys
 import zipfile
+import time
 import module_load_function as mlf
 from pprint import pprint
 s3 = boto3.resource('s3')
@@ -14,6 +15,7 @@ import pymysql
 from datetime import datetime
 import datetime
 import payjp
+start_time = time.time()
 
 def get_db_data(rds):
   host = os.environ.get('DB_HOST')
@@ -32,8 +34,9 @@ def get_db_data(rds):
 
 def update_subscription_status(rds):
   results, mysql_connection = get_db_data(rds)
-  pprint(len(results))
   for r in results:
+    if (time.time() - start_time) > 780:
+      exit()
     try:
       payjp.api_key = os.environ.get('PAYJP_API_KEY')
       response = payjp.Subscription.retrieve(r['subscription_id'])
